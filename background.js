@@ -1,5 +1,12 @@
+// Post install tasks
+chrome.runtime.onInstalled.addListener(function(details){
+  if(details.reason == "install") { 
+    init(true);
+  }
+});
+
 //// Plugin load starts here
-chrome.storage.sync.get({enabled: true}, function(items) {
+chrome.storage.sync.get('enabled', function(items) {
   console.log(items.enabled);
   init(items.enabled);
 });
