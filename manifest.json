@@ -2,8 +2,9 @@
   "manifest_version": 2,
 
   "name": "ggtomisogynist",
-  "description": "This plugin corrects the spelling mistake \"gamergate\" to misoginist.",
+  "description": "This plugin replaces the word \"gamergate\" with misoginist. People have terrible spelling nowadays.",
   "version": "1.0",
+  "author": "Lisa Burton (0lisa.burton+spaceboot@gmail.com)",
   "background": {
     "scripts": ["background.js"]
   },

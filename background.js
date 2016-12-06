@@ -1,13 +1,11 @@
-var _enabled;
 //// Plugin load starts here
 chrome.storage.sync.get('enabled', function(items) {
   console.log(items.enabled);
-  _enabled = items.enabled;
-  init(_enabled);
+  init(items.enabled);
 });
 
 init = function(enabled) {
-  console.log("Initialising the greatest chrome plugin ever... (mode = " + _enabled + ")")
+  console.log("Initialising the greatest chrome plugin ever... (mode = " + enabled + ")")
   setupPluginIcon(enabled);
   registerClickListener(enabled);
 }

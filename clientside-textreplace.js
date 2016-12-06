@@ -18,7 +18,6 @@ var connectObserverDomListen = function(observer) {
 };
 
 var disconnectObserverDomListener = function(observer) {
-
   if (observer != null) {
     observer.disconnect();
     console.log("DOM observer disconnected");
@@ -38,6 +37,7 @@ var doClientSideDisable = function() {
   disconnectObserverDomListener(_observer);
 }
 
+/// Server side sent plugin shutdown request
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.enabled == true) {
@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener(
       console.log("Server side script requested client side disable.");
       doClientSideDisable();
     }
-  });
+});
 
 /// Client side intialise
 chrome.storage.sync.get('enabled', function(items) {
@@ -59,14 +59,13 @@ chrome.storage.sync.get('enabled', function(items) {
   }
 });
 
-// This needs to iterate over the DOM and replace the text content.
+/// This walks the DOM like anti-fascist robot from the future
 doReplace = function(doc) {
   var treeWalker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_ALL, null, null)
 
   do {
     var tmpnode = treeWalker.currentNode;
-    var tmptxt = tmpnode.nodeValue;
-    if (tmptxt) {
+    if (tmpnode.nodeValue) {
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamergate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamegate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer-gate/ig, 'misogynist');
