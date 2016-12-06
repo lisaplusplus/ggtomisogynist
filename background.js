@@ -1,5 +1,5 @@
 //// Plugin load starts here
-chrome.storage.sync.get('enabled', function(items) {
+chrome.storage.sync.get({enabled: true}, function(items) {
   console.log(items.enabled);
   init(items.enabled);
 });
