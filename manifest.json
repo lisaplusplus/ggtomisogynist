@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "ggtomisogynist"",
+  "name": "ggtomisogynist",
   "description": "This plugin corrects the spelling mistake \"gamergate\" to misoginist.",
   "version": "1.0",
   "background": {
