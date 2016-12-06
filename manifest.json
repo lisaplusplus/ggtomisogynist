@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "Gamergate to misognist corrector plugin",
+  "description": "This plugin corrects the common spelling mistake \"gamergate\" to misoginist.",
+  "version": "1.0",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "icons": {
+    "256": "images/package-icon.png"
+  },
+  "browser_action": {
+    "default_icon": "images/icon-regular.png",
+    "default_title": "Gators are misogynists yo."
+  },
+  "permissions": [
+    "<all_urls>",
+    "storage"
+  ],
+  "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["jquery-3.1.1.min.js", "clientside-textreplace.js"],
+        "run_at": "document_end"
+      }
+    ]
+}

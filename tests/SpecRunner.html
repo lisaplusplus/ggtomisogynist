@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner v2.5.2</title>
+
+  <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-2.5.2/jasmine_favicon.png">
+  <link rel="stylesheet" href="jasmine/lib/jasmine-2.5.2/jasmine.css">
+
+  <script src="jasmine/lib/jasmine-2.5.2/jasmine.js"></script>
+  <script src="jasmine/lib/jasmine-2.5.2/jasmine-html.js"></script>
+  <script src="jasmine/lib/jasmine-2.5.2/boot.js"></script>
+
+  <script type="text/javascript">
+    var chrome = {
+      storage: {
+        sync: {
+          get: function() {}
+        }
+      },
+      runtime: {
+        onMessage: {
+          addListener: function() {}
+        }
+      }
+    }
+  </script>
+
+  <!-- include source files here... -->
+  <script src="../background.js"></script>
+  <script src="../clientside-textreplace.js"></script>
+
+  <!-- include spec files here... -->
+  <script src="spec/SpecHelper.js"></script>
+  <script src="spec/ClientsideTextReplaceSpec.js"></script>
+
+</head>
+
+<body>
+</body>
+</html>

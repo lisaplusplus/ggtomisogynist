@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="../jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    var giesALink = function() {
+      var aNode = document.createElement('a');
+      var linkText = document.createTextNode("Gamergate dickbag");
+      aNode.appendChild(linkText);
+      aNode.title = "Gamergate dickbag";
+      aNode.href = "http://feministwiki.com/GamerGateDickBags.html";
+      return aNode;
+    }
+
+    $(document).ready(function() {
+      setInterval(function() {
+        $("#content").append(" gamergate gamegate game-gate gamer-gate gamer gate<br />");
+        $("#content").append(" It'S abOut eThiCs in gaming brO<br />");
+        $("#content").append(" It'S abOut eThiCs in journalism brO<br />");
+
+
+        document.getElementById("content").appendChild(giesALink());
+        $("#content").append("<br />");
+
+      }, 1500);
+    });
+    </script>
+  </head>
+  <body>
+    <h3>
+      This is designed to test my text replace plugin where the DOM updates
+      automatically.
+    </h3>
+    <h4>
+      N.B. The text should get replaced but hyperlinks should
+      NOT.
+    </h4>
+    <p>GamerGate gamergate GaMeRGate gamer-gate</p><br />
+    <img href="wikia.com/GamerGate">gamergate</img>
+    <div id="content">
+    </div>
+  </body>
+</html>
