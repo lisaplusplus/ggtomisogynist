@@ -52,10 +52,12 @@ chrome.runtime.onMessage.addListener(
 /// Client side intialise
 chrome.storage.sync.get('enabled', function(items) {
   console.log(items.enabled);
-  if (items.enabled) {
-    doClientSideEnable();
-  } else {
-    doClientSideDisable();
+  if (typeof items.enabled != 'undefined') {
+    if (items.enabled) {
+      doClientSideEnable();
+    } else {
+      doClientSideDisable();
+    }
   }
 });
 
