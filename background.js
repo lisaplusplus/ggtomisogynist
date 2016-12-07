@@ -1,55 +1,50 @@
-// Post install tasks
-chrome.runtime.onInstalled.addListener(function(details){
-  console.log("Plugin onInstalled event detected");
-  if(details.reason == "install") { 
-    console.log("Defaulting plugin to enabled for first run");
-    init(true);
-  }
-});
-
 //// Plugin load starts here
-chrome.runtime.onStartup.addListener(function() {
-  chrome.storage.sync.get('enabled', function(items) {
-    console.log(items.enabled);
-    if (typeof items.enabled != 'undefined') {
-      init(items.enabled);
-    }
-  });
+//chrome.runtime.onStartup.addListener(function() {
+// Todo, bind this to some sort of event. 
+chrome.storage.sync.get('disabled', function(items) {
+  console.log(items.disabled);
+  init(items.disabled);
 });
+//});
 
-init = function(enabled) {
-  console.log("Initialising the greatest chrome plugin ever... (mode = " + enabled + ")")
-  setMode(enabled);
-  registerClickListener(enabled);
+init = function(disabled) {
+  console.log("Initialising the greatest chrome plugin ever... (mode = " + disabled + ")")
+  registerClickListener();
 }
 
 //// Event for clicking the icon
-registerClickListener = function(enabled) {
+registerClickListener = function() {
   chrome.browserAction.onClicked.addListener(function (tab) {
-    setMode(!enabled);   
+    toggleMode();
   });
 }
 
-setMode = function(enabled) {
-  //// Persist the plugin enable variable value
-  chrome.storage.sync.set({'enabled': enabled}, function() {
-    setupPluginIcon(enabled);
-    console.log("Plugin toggled mode toggled to " + enabled + " successfully!");
-      
-    //// Communicate click event to the client side script injected by the plugin
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {enabled: enabled}, function(response) {
+toggleMode = function() {
+  console.log("Toggling extension on/off");
+
+  //// Get, invert then set the plugin on/off switch
+  chrome.storage.sync.get('disabled', function(items) {
+    newValue = !items.disabled;
+    chrome.storage.sync.set({'disabled': newValue}, function() {
+      setupPluginIcon(newValue);
+      console.log("Plugin disabled flag toggled to " + newValue + " successfully!");
+
+      //// Communicate click event to the client side script injected by the plugin
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        console.log("Sending " + newValue + " to client");
+        chrome.tabs.sendMessage(tabs[0].id, {disabled: newValue}, function(response) {
+        });
       });
     });
   });
 }
 
 //// Configure the icon depenending on plugin status
-setupPluginIcon = function(enabled) {
-  if (enabled) {
-    setEnabledIcon();
-  } else {
+setupPluginIcon = function(disabled) {
+  if (disabled) {
     setDisabledIcon();
+  } else {
+    setEnabledIcon();
   }
 }
 

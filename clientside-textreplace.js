@@ -40,24 +40,23 @@ var doClientSideDisable = function() {
 /// Server side sent plugin shutdown request
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.enabled == true) {
-      console.log("Server side script requested client side enable.");
-      doClientSideEnable();
-    } else {
+    console.log("Background script sent " + request.disabled);
+    if (request.disabled) {
       console.log("Server side script requested client side disable.");
       doClientSideDisable();
+    } else {
+      console.log("Server side script requested client side enable.");
+      doClientSideEnable();
     }
 });
 
 /// Client side intialise
-chrome.storage.sync.get('enabled', function(items) {
-  console.log(items.enabled);
-  if (typeof items.enabled != 'undefined') {
-    if (items.enabled) {
-      doClientSideEnable();
-    } else {
-      doClientSideDisable();
-    }
+chrome.storage.sync.get('disabled', function(items) {
+  console.log(items.disabled);
+  if (items.disabled) {
+    doClientSideDisable();
+  } else {
+    doClientSideEnable();
   }
 });
 
