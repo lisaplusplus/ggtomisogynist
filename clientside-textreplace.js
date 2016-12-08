@@ -1,8 +1,9 @@
 var createMutationObserver = function() {
     return new WebKitMutationObserver(
         function(mutations) {
-            console.log("DOM change event detected. " + mutations)
-            doReplace(document);
+            mutations.forEach(function(mutation) {
+              doReplace(mutation.target);
+            });
         }
     );
 };
@@ -11,9 +12,8 @@ var _observer = createMutationObserver();
 
 var connectObserverDomListen = function(observer) {
     observer.observe(document.body, {
-        attributes:true, childList: true, characterData: true, subtree: true
+        attributes: false, childList: true, characterData: true, subtree: true
     });
-
     console.log("DOM observer connected");
 };
 
@@ -26,14 +26,12 @@ var disconnectObserverDomListener = function(observer) {
 
 var doClientSideEnable = function() {
   console.log("Running doClientSideEnable()");
-
   doReplace(document);
   connectObserverDomListen(_observer);
 }
 
 var doClientSideDisable = function() {
   console.log("Running doClientSideDisable()");
-
   disconnectObserverDomListener(_observer);
 }
 
@@ -60,9 +58,9 @@ chrome.storage.sync.get('disabled', function(items) {
   }
 });
 
-/// This walks the DOM like anti-fascist robot from the future
+/// This walks the DOM like an anti-fascist robot from the future
 doReplace = function(doc) {
-  var treeWalker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_ALL, null, null)
+  var treeWalker = document.createTreeWalker(doc, NodeFilter.SHOW_TEXT, null, null)
 
   do {
     var tmpnode = treeWalker.currentNode;
@@ -85,3 +83,5 @@ doReplace = function(doc) {
     }
   } while (treeWalker.nextNode());
 };
+
+doReplace(document);
