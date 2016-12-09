@@ -46,6 +46,7 @@ chrome.runtime.onMessage.addListener(
       console.log("Server side script requested client side enable.");
       doClientSideEnable();
     }
+    sendResponse({ok: true});
 });
 
 /// Client side intialise
@@ -64,24 +65,30 @@ doReplace = function(doc) {
 
   do {
     var tmpnode = treeWalker.currentNode;
+
     if (tmpnode.nodeValue) {
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamergate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamegate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer-gate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer gate/ig, 'misogynist');
+
       tmpnode.nodeValue = tmpnode.nodeValue.replace(
-        /it's about ethics in journalism/ig,
-        'It\'s about stopping women from playing video games');
+                        /it's about ethics in journalism/ig,
+                        'It\'s about stopping women from playing video games');
+
       tmpnode.nodeValue = tmpnode.nodeValue.replace(
-        /it's about ethics in gaming/ig,
-        'It\'s about stopping women from playing video games');
+                        /it's about ethics in gaming/ig,
+                        'It\'s about stopping women from playing video games');
+
       tmpnode.nodeValue = tmpnode.nodeValue.replace(
-        /ethics in game journalism/ig,
-        'stopping women from playing video games');
+                        /ethics in game journalism/ig,
+                        'stopping women from playing video games');
 
       treeWalker.currentNode = tmpnode;
     }
+
   } while (treeWalker.nextNode());
+
 };
 
 doReplace(document);

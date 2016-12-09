@@ -1,9 +1,12 @@
+var _disabled;
+
 //// Plugin load starts here
 //chrome.runtime.onStartup.addListener(function() {
 // Todo, bind this to some sort of event.
 chrome.storage.sync.get('disabled', function(items) {
   console.log(items.disabled);
-  init(items.disabled);
+  _disabled = items.disabled;
+  init(_disabled);
 });
 //});
 
@@ -22,23 +25,22 @@ registerClickListener = function() {
 toggleMode = function() {
   console.log("Toggling extension on/off");
 
-  //// Get, invert then set the plugin on/off switch
-  chrome.storage.sync.get('disabled', function(items) {
-    // Work out new state and update extension icon
-    newValue = !items.disabled;
-    setupPluginIcon(newValue);
+  // Flip the cached disabled flag
+  _disabled = !_disabled;
 
-    //// Communicate click event to the client side script injected by the plugin
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      console.log("Sending " + newValue + " to client");
-      chrome.tabs.sendMessage(tabs[0].id, {disabled: newValue}, function(response) {
-      });
+  //// Communicate click event to the content script
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    console.log("Sending " + _disabled + " to client");
+    chrome.tabs.sendMessage(tabs[0].id, {disabled: _disabled}, function(response) {
+      if (response.ok) {
+        setupPluginIcon(_disabled);
+      }
     });
+  });
 
-    // Presist disable flag
-    chrome.storage.sync.set({'disabled': newValue}, function() {
-      console.log("Plugin disabled flag persisted as " + newValue);
-    });
+  // Presist the mode switch. We just overwrite the stored value.
+  chrome.storage.sync.set({'disabled': _disabled}, function() {
+    console.log("Plugin disabled flag persisted as " + _disabled);
   });
 }
 
