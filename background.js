@@ -32,9 +32,7 @@ toggleMode = function() {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     console.log("Sending " + _disabled + " to client");
     chrome.tabs.sendMessage(tabs[0].id, {disabled: _disabled}, function(response) {
-      if (response.ok) {
-        setupPluginIcon(_disabled);
-      }
+      setupPluginIcon(_disabled);
     });
   });
 

@@ -91,4 +91,8 @@ doReplace = function(doc) {
 
 };
 
-doReplace(document);
+chrome.storage.sync.get('disabled', function(items) {
+  if (!items.disabled) {
+    doReplace(document);
+  }
+});

@@ -1,0 +1,48 @@
+Starting point: Fresh Ubuntu Linux machine with Google Chrome (latest - 9DEC).
+OS running on VirtualBox.
+
+"Test Page" = tests/test.html
+
+(Should be ran before comitting, against the clean checked out code 
+	and the deployed version on app store)
+
+"A fresh install should be enabled by default"
+	1. Start Google Chrome
+	2. Install extension
+		[ Verify that the extension icon appears and is red ]
+	
+"Gamergate gets replaced with misogynist"
+	3. Navigate to the Test Page
+		[ Verify that pre existing gamergate elements get replaced with misogynist ]
+		[ Verify that auto added (every second or so) elements get replaced]
+		[ Verify that the window title (within head tag) gets replaced ]
+
+"The default enabled status persists across browser runs"
+	4. Exit Google Chrome and relaunch
+		[ Verify the verifications from step 2. ]
+
+"Extension continues to work properly"
+	5. Navigate to the Test Page
+		[ Verify the verifications from step 3. ]
+
+"The extension should stop operating when disabled"
+	6. Click the extension icon.
+		[ Verfiy that the extension icon is greyed out ]
+		[ Verfiy that the new elements on the Test Page do not get replaced ]
+
+"The extension disabled setting persists across browser runs"
+	7. Exit browser
+	8. Open the Test Page
+		[ Verify that gamergate does NOT get replaced ]
+		[ Verify that auto added elements do NOT get replaced ]
+		[ Verfiy that the window title (within head) does NOT get replced ]
+
+"The extension can handle being toggled on and off"
+	9. Re-enable the plugin 
+		[ Verfiy that the Test Page gets replaced ]
+		[ Verfiy verifications form step 3. ]
+	10. Go to step 4 (only once required)
+
+
+
+	
