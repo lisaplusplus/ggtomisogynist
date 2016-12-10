@@ -10,10 +10,21 @@ describe("ClientsideTextReplace 'doReplace' function", function() {
   // Tests that the target list is correct, tests nothing fancy about DOM structure.
   describe("Text replace target list", function() {
 
+    // N.B All of the targets aren't tests indvidually unless they are likely to cause issues. Maintenance thing really.
     it("Replaces gamergate", function() {
       // Test data setup
       var testDocument = createTestDocument();
       testDocument.body.innerText = "gamergate isnie cool!";
+
+      doReplace(testDocument);
+
+      expect(testDocument.body.innerHTML).toEqual('misogynist isnie cool!');
+    });
+
+    it("Replaces game-gate", function() {
+      // Test data setup
+      var testDocument = createTestDocument();
+      testDocument.body.innerText = "game-gate isnie cool!";
 
       doReplace(testDocument);
 

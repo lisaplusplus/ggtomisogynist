@@ -70,6 +70,7 @@ doReplace = function(doc) {
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamergate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamegate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer-gate/ig, 'misogynist');
+      tmpnode.nodeValue = tmpnode.nodeValue.replace(/game-gate/ig, 'misogynist');
       tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer gate/ig, 'misogynist');
 
       tmpnode.nodeValue = tmpnode.nodeValue.replace(
