@@ -1,32 +1,32 @@
 var createMutationObserver = function() {
-    return new WebKitMutationObserver(
-        function(mutations) {
-            mutations.forEach(function(mutation) {
-              doReplace(mutation.target);
-            });
-        }
-    );
+  return new WebKitMutationObserver(
+    function(mutations, observer) {
+      mutations.forEach(function(mutation) {
+        doReplace(mutation.target);
+      });
+  });
 };
 
 var _observer = createMutationObserver();
 
-var connectObserverDomListen = function(observer) {
-    observer.observe(document.body, {
-        attributes: false, childList: true, characterData: true, subtree: true
-    });
-    console.log("DOM observer connected");
+var connectObserverDomListen = function() {
+  _observer.observe(document.body, {
+    attributes: true, childList: true, characterData: false, subtree: true
+  });
+  
+  console.log("DOM observer connected");
 };
 
-var disconnectObserverDomListener = function(observer) {
+var disconnectObserverDomListener = function() {
   if (observer != null) {
-    observer.disconnect();
+    _observer.disconnect();
     console.log("DOM observer disconnected");
   }
 };
 
 var doClientSideEnable = function() {
   console.log("Running doClientSideEnable()");
-  doReplace(document);
+  doReplace(document, _observer);
   connectObserverDomListen(_observer);
 }
 
@@ -47,7 +47,8 @@ chrome.runtime.onMessage.addListener(
       doClientSideEnable();
     }
     sendResponse({ok: true});
-});
+  }
+);
 
 /// Client side intialise
 chrome.storage.sync.get('disabled', function(items) {
@@ -59,41 +60,26 @@ chrome.storage.sync.get('disabled', function(items) {
   }
 });
 
-/// This walks the DOM like an anti-fascist robot from the future
+substituteGamerGateText = function(node) {
+  if (node.nodeValue) {
+    node.nodeValue = node.nodeValue.replace(/Game[r]?[-]?[ ]?gate/ig, 'misogynist');
+  }
+}
+
 doReplace = function(doc) {
   var treeWalker = document.createTreeWalker(doc, NodeFilter.SHOW_TEXT, null, null)
 
+  console.log(doc);
   do {
-    var tmpnode = treeWalker.currentNode;
-
-    if (tmpnode.nodeValue) {
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamergate/ig, 'misogynist');
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamegate/ig, 'misogynist');
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer-gate/ig, 'misogynist');
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(/game-gate/ig, 'misogynist');
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(/gamer gate/ig, 'misogynist');
-
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(
-                        /it's about ethics in journalism/ig,
-                        'It\'s about stopping women from playing video games');
-
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(
-                        /it's about ethics in gaming/ig,
-                        'It\'s about stopping women from playing video games');
-
-      tmpnode.nodeValue = tmpnode.nodeValue.replace(
-                        /ethics in game journalism/ig,
-                        'stopping women from playing video games');
-
-      treeWalker.currentNode = tmpnode;
+    if (treeWalker.currentNode) {
+      substituteGamerGateText(treeWalker.currentNode);
     }
-
   } while (treeWalker.nextNode());
-
 };
 
 chrome.storage.sync.get('disabled', function(items) {
   if (!items.disabled) {
-    doReplace(document);
+    doReplace(document.body);
+    connectObserverDomListen(createMutationObserver());
   }
 });
