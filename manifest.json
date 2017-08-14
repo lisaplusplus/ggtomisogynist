@@ -3,7 +3,7 @@
 
   "name": "ggtomisogynist",
   "description": "This plugin replaces the word \"gamergate\" with misoginist. People have terrible spelling nowadays.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Lisa Burton (0lisa.burton+spaceboot@gmail.com)",
   "background": {
     "scripts": ["background.js"]
